@@ -11,6 +11,7 @@ if os.path.exists(join(root_path, '.DS_Store')):
     os.remove(join(root_path, '.DS_Store'))
 
 for img in os.listdir(root_path):
+    print("Processing:",img)
     if 'CT' in img:
         name = img.split('_CT')[0]
         os.rename(join(root_path, img), join(root_path, name + '0000.nii.gz'))
