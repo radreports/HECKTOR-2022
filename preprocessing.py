@@ -301,34 +301,34 @@ for i, name in enumerate(names):
             img_ct = quick_crop(img_ct, int(size_ct*.65))
             img_pt = quick_crop(img_pt, int(size_pt*.65))
             mask = quick_crop(mask,int(size_mask*.65))
+    
+        #save reference
+        if i == 0:
+            sitk.WriteImage(img_ct,os.path.join(out_temp,code+str(i).zfill(3)+'_0000.nii.gz'))
+            sitk.WriteImage(img_pt, os.path.join(out_temp,code+str(i).zfill(3)+'_0001.nii.gz'))
+            sitk.WriteImage(mask, os.path.join(out_temp,code+str(i).zfill(3)+'.nii.gz'))
+            cr_img_ct, cr_img_pt, cr_mask = img_ct,img_pt,mask
+        else:
+            # Registration
+            mask = 0
+            cr_mask = 0
+            cr_img_ct, cr_img_pt, cr_mask, transform = nrrd_reg_rigid_ref(os.path.join(out_temp,code+'000_'+'0000.nii.gz'), img_ct, img_pt, mask)
+            # save tranformation
+            sitk.WriteTransform(transform, os.path.join(out_trans,code+str(i).zfill(3)+'.txt'))
+
+            #toggle crop
+            cr_img_ct, cr_img_pt, cr_mask, text = crop_top(cr_img_ct, cr_img_pt, cr_mask, [160,160,72])
+            
+            #save crop parameters
+            with open(os.path.join(out_trans,code+str(i).zfill(3)+'crop.txt'), 'w') as f:
+                f.write(text)
+
+            #save files
+            sitk.WriteImage(cr_img_ct, os.path.join(out_img,code+str(i).zfill(3)+'_0000.nii.gz'))
+            sitk.WriteImage(cr_img_pt, os.path.join(out_img,code+str(i).zfill(3)+'_0001.nii.gz'))
+            sitk.WriteImage(cr_mask, os.path.join(out_label,code+str(i).zfill(3)+'.nii.gz'))
     except Exception as e: 
             print("Exception::",str(e))
-#save reference
-  if i == 0:
-    sitk.WriteImage(img_ct,os.path.join(out_temp,code+str(i).zfill(3)+'_0000.nii.gz'))
-    sitk.WriteImage(img_pt, os.path.join(out_temp,code+str(i).zfill(3)+'_0001.nii.gz'))
-    sitk.WriteImage(mask, os.path.join(out_temp,code+str(i).zfill(3)+'.nii.gz'))
-    cr_img_ct, cr_img_pt, cr_mask = img_ct,img_pt,mask
-  else:
-    # Registration
-    mask = 0
-    cr_mask = 0
-    cr_img_ct, cr_img_pt, cr_mask, transform = nrrd_reg_rigid_ref(os.path.join(out_temp,code+'000_'+'0000.nii.gz'), img_ct, img_pt, mask)
-    # save tranformation
-    sitk.WriteTransform(transform, os.path.join(out_trans,code+str(i).zfill(3)+'.txt'))
-
-    #toggle crop
-    cr_img_ct, cr_img_pt, cr_mask, text = crop_top(cr_img_ct, cr_img_pt, cr_mask, [160,160,72])
-    
-    #save crop parameters
-    with open(os.path.join(out_trans,code+str(i).zfill(3)+'crop.txt'), 'w') as f:
-      f.write(text)
-
-    #save files
-    sitk.WriteImage(cr_img_ct, os.path.join(out_img,code+str(i).zfill(3)+'_0000.nii.gz'))
-    sitk.WriteImage(cr_img_pt, os.path.join(out_img,code+str(i).zfill(3)+'_0001.nii.gz'))
-    sitk.WriteImage(cr_mask, os.path.join(out_label,code+str(i).zfill(3)+'.nii.gz'))
-
 # crop reference file
 #grab files
 name = 'MDA-202'
