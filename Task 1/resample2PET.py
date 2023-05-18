@@ -14,9 +14,13 @@ def remove_DS_Store(path):
     if os.path.exists(join(path, '.DS_Store')):
         os.remove(join(path, '.DS_Store'))
 
-label_path = 'path/to/labels'
-img_path = 'path/to/images'
-save_path = 'path/to/save'
+# label_path = 'path/to/labels'
+# img_path = 'path/to/images'
+# save_path = 'path/to/save'
+label_path = '/home/ubuntu/storage1/HECKTOR-2022/data/hecktor2022_training/hecktor2022/labelsTr'
+img_path = '/home/ubuntu/storage1/HECKTOR-2022/data/hecktor2022_training/hecktor2022/imagesTr'
+save_path = '/home/ubuntu/storage1/HECKTOR-2022/data/training'
+
 
 remove_DS_Store(img_path)
 
