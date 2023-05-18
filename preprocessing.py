@@ -263,7 +263,7 @@ def quick_crop(img, length):
 
 #filepaths
 
-in_data = '/home/ubuntu/storage1/HECKTOR-2022/data/Task501_Hecktor/testing/imagesTs'
+in_data = '/home/ubuntu/storage1/HECKTOR-2022/data/Task501_Hecktor/training/imagesTr'
 in_label =  '/home/ubuntu/storage1/HECKTOR-2022/data/Task501_Hecktor/training/labelsTr'
 ref_folder = '/home/ubuntu/storage1/HECKTOR-2022/nnUNet_raw_data/Task507_160x160x64/competition_data/'
 names_path = '/home/ubuntu/storage1/HECKTOR-2022/data/Task501_Hecktor/testing/hecktor2022_clinical_info_testing.csv'
@@ -428,10 +428,10 @@ def generate_dataset_json(output_file: str, imagesTr_dir: str, imagesTs_dir: str
     save_json(json_dict, os.path.join(output_file), sort_keys=sort_keys)
 
 #filepaths
-json_path = '/content/drive/MyDrive/DATA/nnUNet_raw_data_base/nnUNet_raw_data/Task503_node_CT/'
+json_path = '/home/ubuntu/storage1/HECKTOR-2022/nnUNet_raw_data/Task503_node_CT/'
 print(json_path)
 #generate json
-out_label = '/content/drive/MyDrive/DATA/nnUNet_raw_data_base/nnUNet_raw_data/Task503_node_CT/labelsnTr/'
-out_test = '/content/drive/MyDrive/DATA/nnUNet_raw_data_base/nnUNet_raw_data/Task503_node_CT/imagesTs/'
+out_label = '/home/ubuntu/storage1/HECKTOR-2022/nnUNet_raw_data/Task503_node_CT/labelsnTr/'
+out_test = '/home/ubuntu/storage1/HECKTOR-2022/nnUNet_raw_data/Task503_node_CT/imagesTs/'
 #format is path to data, path to labels, path to testing data, modalities, encoding, dataset name
 generate_dataset_json(os.path.join(json_path,'dataset.json'), out_label, out_test, ('CT'),{0: 'background', 1: 'node'},dataset_name = 'HECKTOR2022')
