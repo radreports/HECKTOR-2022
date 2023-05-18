@@ -10,6 +10,7 @@ root_path = "/home/ubuntu/storage1/HECKTOR-2022/data/hecktor2022_training/heckto
 if os.path.exists(join(root_path, '.DS_Store')):
     os.remove(join(root_path, '.DS_Store'))
 
+# print("processed in directory:",root_path)
 for img in os.listdir(root_path):
     print("Processing:",img)
     if 'CT' in img:
@@ -18,3 +19,5 @@ for img in os.listdir(root_path):
     elif 'PT' in img:
         name = img.split('_PT')[0]
         os.rename(join(root_path, img), join(root_path, name + '0001.nii.gz'))
+
+print("processed in directory:",root_path)
