@@ -281,26 +281,28 @@ code = 'HEK_'
 for i, name in enumerate(names):
 
   #grab files
-  img_ct = sitk.ReadImage(os.path.join(in_data,name+'__CT.nii.gz'))
-  img_pt = sitk.ReadImage(os.path.join(in_data,name+'__PT.nii.gz'))
-  mask = sitk.ReadImage(os.path.join(in_label,name+'.nii.gz'))
+    try :
+        img_ct = sitk.ReadImage(os.path.join(in_data,name+'__CT.nii.gz'))
+        img_pt = sitk.ReadImage(os.path.join(in_data,name+'__PT.nii.gz'))
+        mask = sitk.ReadImage(os.path.join(in_label,name+'.nii.gz'))
 
-  #resample to 1x1x3
-  img_ct = resample_sitk_image(img_ct, new_spacing=[1, 1, 3],new_size= None, interpolator=sitk.sitkLinear)
-  img_pt = resample_sitk_image(img_pt, new_spacing=[1, 1, 3],new_size= None, interpolator=sitk.sitkLinear)
-  mask = resample_sitk_image(mask, new_spacing=[1, 1, 3],new_size= None, interpolator=sitk.sitkNearestNeighbor)
+        #resample to 1x1x3
+        img_ct = resample_sitk_image(img_ct, new_spacing=[1, 1, 3],new_size= None, interpolator=sitk.sitkLinear)
+        img_pt = resample_sitk_image(img_pt, new_spacing=[1, 1, 3],new_size= None, interpolator=sitk.sitkLinear)
+        mask = resample_sitk_image(mask, new_spacing=[1, 1, 3],new_size= None, interpolator=sitk.sitkNearestNeighbor)
 
-  #crop for uniform sizing
-  size_ct = img_ct.GetSize()[2]
-  size_pt = img_pt.GetSize()[2]
-  size_mask = mask.GetSize()[2]
+        #crop for uniform sizing
+        size_ct = img_ct.GetSize()[2]
+        size_pt = img_pt.GetSize()[2]
+        size_mask = mask.GetSize()[2]
 
-  #check for uncropped images
-  if(200<size_ct):
-    img_ct = quick_crop(img_ct, int(size_ct*.65))
-    img_pt = quick_crop(img_pt, int(size_pt*.65))
-    mask = quick_crop(mask,int(size_mask*.65))
-
+        #check for uncropped images
+        if(200<size_ct):
+            img_ct = quick_crop(img_ct, int(size_ct*.65))
+            img_pt = quick_crop(img_pt, int(size_pt*.65))
+            mask = quick_crop(mask,int(size_mask*.65))
+    except Exception as e: 
+            print("Exception::",str(e))
 #save reference
   if i == 0:
     sitk.WriteImage(img_ct,os.path.join(out_temp,code+str(i).zfill(3)+'_0000.nii.gz'))
