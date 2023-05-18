@@ -5,7 +5,7 @@ This file renames PET/CT images to match the name convention used for nnU-Net.
 import os
 join = os.path.join
 
-root_path = "/home/ubuntu/storage1/HECKTOR-2022/data/hecktor2022_training/hecktor2022"
+root_path = "/home/ubuntu/storage1/HECKTOR-2022/data/hecktor2022_training/hecktor2022/labelsTr"
 
 if os.path.exists(join(root_path, '.DS_Store')):
     os.remove(join(root_path, '.DS_Store'))
